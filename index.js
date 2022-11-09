@@ -64,7 +64,7 @@ window.addEventListener("load", function () {
       this.angle = 0;
       this.distance = 0;
       this.friction = Math.random() * 0.1;
-      this.ease = Math.random() * 0.4 + 0.005;
+      this.ease = Math.random() * 0.7 + 0.005;
     }
 
     update() {
@@ -104,12 +104,12 @@ window.addEventListener("load", function () {
       this.force = -this.effect.beatRadius / this.distance;
 
       if (this.distance < this.effect.beatRadius) {
-        this.size =
-          Math.floor(Math.random() * 100) > 70
-            ? effect.gap +
-              (this.effect.beatRadius - this.effect.originBeatRadius) /
-                (this.effect.beatStep * 2)
-            : effect.gap;
+        setTimeout(() => {
+          this.size =
+            Math.floor(Math.random() * 100) > 90
+              ? this.effect.gap + Math.floor(Math.random() * 7)
+              : this.effect.gap;
+        }, 100 * Math.floor(Math.random() * 4));
 
         this.angle = Math.atan2(this.dy, this.dx);
         this.vx += this.force * Math.cos(this.angle);
@@ -148,13 +148,14 @@ window.addEventListener("load", function () {
       this.y = this.centerY - this.image.height / 2;
       this.particles = [];
       this.gap = 5;
+      this.up = true;
       this.originBeatRadius = 30000;
-      this.beatStep = 5000;
+      this.beatStep = 10000;
       this.beatRadius = this.originBeatRadius;
       this.mouse = {
         radius: 10000,
-        x: this.centerX,
-        y: this.centerY,
+        x: 0,
+        y: 0,
       };
       window.addEventListener("mousemove", (event) => {
         this.mouse.x = event.x;
@@ -206,7 +207,7 @@ window.addEventListener("load", function () {
           // if (alpha == 0 && Math.floor(Math.random() * 100) > 95) {
           //   this.particles.push(new Particle(this, x, y, 'white'));
           // }
-          if (alpha > 0) {
+          if (alpha > 0 && Math.floor(Math.random() * 100) > 18) {
             this.particles.push(new Particle(this, x, y, "#ea80b0"));
           }
         }
@@ -220,14 +221,9 @@ window.addEventListener("load", function () {
     }
     render(context) {
       context.clearRect(0, 0, this.width, this.height);
-      for (
-        var i = 0;
-        i < this.particles.length;
-        i += Math.floor(Math.random() * 3)
-      ) {
+      for (var i = 0; i < this.particles.length; i++) {
         var p = this.particles[i];
-        context.fillStyle =
-          Math.floor(Math.random() * 100) > 50 ? "black" : p.color;
+        context.fillStyle = p.color;
         // context.fillRect(p.x, p.y, p.size, p.size);
         drawHeart(context, p.x, p.y, p.size, p.color);
       }
@@ -238,9 +234,16 @@ window.addEventListener("load", function () {
   effect.init(ctx);
 
   function animate() {
-    effect.beatRadius += effect.beatStep;
-    if (effect.beatRadius === effect.originBeatRadius * 3) {
-      effect.beatRadius = effect.originBeatRadius;
+    if (effect.up) {
+      effect.beatRadius += effect.beatStep;
+      if (effect.beatRadius >= effect.originBeatRadius * 3) {
+        effect.up = false;
+      }
+    } else {
+      effect.beatRadius -= effect.beatStep;
+      if (effect.beatRadius <= effect.originBeatRadius) {
+        effect.up = true;
+      }
     }
     effect.update();
     effect.render(ctx);
