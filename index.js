@@ -90,10 +90,8 @@ window.addEventListener("load", function () {
         this.angle = Math.atan2(this.dy, this.dx);
         this.vx += this.force * Math.cos(this.angle);
         this.vy += this.force * Math.sin(this.angle);
-        this.x +=
-          (this.vx *= 0.4) + (this.originX - this.x) * this.ease;
-        this.y +=
-          (this.vy *=  0.4) + (this.originY - this.y) * this.ease;
+        this.x += (this.vx *= 0.4) + (this.originX - this.x) * this.ease;
+        this.y += (this.vy *= 0.4) + (this.originY - this.y) * this.ease;
         return;
       }
 
@@ -147,7 +145,7 @@ window.addEventListener("load", function () {
       this.x = this.centerX - this.image.width / 2;
       this.y = this.centerY - this.image.height / 2;
       this.particles = [];
-      this.gap = 7;
+      this.gap = 6;
       this.up = true;
       this.originBeatRadius = 30000;
       this.beatStep = 10000;
@@ -208,7 +206,11 @@ window.addEventListener("load", function () {
           //   this.particles.push(new Particle(this, x, y, 'white'));
           // }
           if (alpha > 0 && Math.floor(Math.random() * 100) > 10) {
-            this.particles.push(new Particle(this, x, y, "#ea80b0"));
+            if (Math.floor(Math.random() * 100) > 90) {
+              this.particles.push(new Particle(this, x, y, 'red'));
+            } else {
+              this.particles.push(new Particle(this, x, y, "#ea80b0"));
+            }
           }
         }
       }
