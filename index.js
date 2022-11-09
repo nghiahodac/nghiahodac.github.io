@@ -147,7 +147,7 @@ window.addEventListener("load", function () {
       this.x = this.centerX - this.image.width / 2;
       this.y = this.centerY - this.image.height / 2;
       this.particles = [];
-      this.gap = 5;
+      this.gap = 7;
       this.up = true;
       this.originBeatRadius = 30000;
       this.beatStep = 10000;
@@ -207,7 +207,7 @@ window.addEventListener("load", function () {
           // if (alpha == 0 && Math.floor(Math.random() * 100) > 95) {
           //   this.particles.push(new Particle(this, x, y, 'white'));
           // }
-          if (alpha > 0 && Math.floor(Math.random() * 100) > 18) {
+          if (alpha > 0 && Math.floor(Math.random() * 100) > 10) {
             this.particles.push(new Particle(this, x, y, "#ea80b0"));
           }
         }
