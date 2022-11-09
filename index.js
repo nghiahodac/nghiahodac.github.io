@@ -91,9 +91,9 @@ window.addEventListener("load", function () {
         this.vx += this.force * Math.cos(this.angle);
         this.vy += this.force * Math.sin(this.angle);
         this.x +=
-          (this.vx *= this.friction) + (this.originX - this.x) * this.ease;
+          (this.vx *= 0.4) + (this.originX - this.x) * this.ease;
         this.y +=
-          (this.vy *= this.friction) + (this.originY - this.y) * this.ease;
+          (this.vy *=  0.4) + (this.originY - this.y) * this.ease;
         return;
       }
 
