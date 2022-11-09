@@ -103,10 +103,14 @@ window.addEventListener("load", function () {
 
       if (this.distance < this.effect.beatRadius) {
         setTimeout(() => {
-          this.size =
-            Math.floor(Math.random() * 100) > 90
-              ? this.effect.gap + Math.floor(Math.random() * 7)
-              : this.effect.gap;
+          if (this.size > this.effect.gap) {
+            this.size -= 1;
+          } else {
+            this.size =
+              Math.floor(Math.random() * 100) > 90
+                ? this.effect.gap + Math.floor(Math.random() * 7)
+                : this.effect.gap;
+          }
         }, 100 * Math.floor(Math.random() * 4));
 
         this.angle = Math.atan2(this.dy, this.dx);
@@ -145,7 +149,7 @@ window.addEventListener("load", function () {
       this.x = this.centerX - this.image.width / 2;
       this.y = this.centerY - this.image.height / 2;
       this.particles = [];
-      this.gap = 6;
+      this.gap = 7;
       this.up = true;
       this.originBeatRadius = 30000;
       this.beatStep = 10000;
@@ -205,9 +209,9 @@ window.addEventListener("load", function () {
           // if (alpha == 0 && Math.floor(Math.random() * 100) > 95) {
           //   this.particles.push(new Particle(this, x, y, 'white'));
           // }
-          if (alpha > 0 && Math.floor(Math.random() * 100) > 10) {
-            if (Math.floor(Math.random() * 100) > 90) {
-              this.particles.push(new Particle(this, x, y, 'red'));
+          if (alpha > 0 && Math.floor(Math.random() * 100) > 5) {
+            if (Math.floor(Math.random() * 100) > 95) {
+              this.particles.push(new Particle(this, x, y, "red"));
             } else {
               this.particles.push(new Particle(this, x, y, "#ea80b0"));
             }
@@ -223,7 +227,11 @@ window.addEventListener("load", function () {
     }
     render(context) {
       context.clearRect(0, 0, this.width, this.height);
-      for (var i = 0; i < this.particles.length; i++) {
+      for (
+        var i = 0;
+        i < this.particles.length;
+        i += Math.floor(Math.random() * 2)
+      ) {
         var p = this.particles[i];
         context.fillStyle = p.color;
         // context.fillRect(p.x, p.y, p.size, p.size);
